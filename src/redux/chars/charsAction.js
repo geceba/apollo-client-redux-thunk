@@ -57,23 +57,20 @@ export let removeCharacterAction = () => (dispatch, getState) => {
 
 }
 
-export let getCharactersAction = () => (dispatch, getState) => {
-    let query = GET_CHARS;
-    dispatch({
-        type: ACTION_TYPES.GET_CHARACTERS
-    })
+export let getCharactersAction = () => async (dispatch, getState) => {
+
     let { nextPage } = getState().characters
-    return client.query({
-        query,
-        variables: { page: nextPage }
-    }).then(({ data, error }) => {
-        if (error) {
-            dispatch({
-                type: ACTION_TYPES.GET_CHARACTERS_ERROR,
-                payload: error
-            })
-            return
-        }
+
+    try {
+        dispatch({
+            type: ACTION_TYPES.GET_CHARACTERS
+        })
+
+        const { data } = await client.query({
+            query: GET_CHARS,
+            variables: { page: nextPage }
+        });
+        
         dispatch({
             type: ACTION_TYPES.GET_CHARACTERS_SUCCESS,
             payload: data.characters.results
@@ -83,7 +80,13 @@ export let getCharactersAction = () => (dispatch, getState) => {
             type: ACTION_TYPES.UPDATE_PAGE,
             payload: data.characters.info.next ? data.characters.info.next : 1
         })
-    })
+    } catch (error) {
+        dispatch({
+            type: ACTION_TYPES.GET_CHARACTERS_ERROR,
+            payload: error
+        })
+    }
+
 
 }
 
