@@ -2,7 +2,7 @@ import React from 'react'
 import Card from '../card/Card'
 import styles from './home.module.css'
 import { connect } from 'react-redux'
-import { removeCharacterAction, addToFavoitesAction } from '../../redux/charsDuck'
+import { removeCharacterAction, addToFavoitesAction } from '../../redux/chars/charsAction'
 
 function Home({ addToFavoitesAction, chars, removeCharacterAction }) {
 

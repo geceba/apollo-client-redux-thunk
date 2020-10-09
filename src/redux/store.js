@@ -1,7 +1,9 @@
 import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import userReducer, { restoreSessionAction } from './userDuck';
-import charsReducer, { getCharactersAction } from './charsDuck';
+import userReducer from './user/userReducer';
+import { restoreSessionAction } from './user/userActions'
+import charsReducer from './chars/charsReducer';
+import { getCharactersAction } from './chars/charsAction';
 import thunk from 'redux-thunk';
 
 let rootReducer = combineReducers({

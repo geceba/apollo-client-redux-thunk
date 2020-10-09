@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './login.module.css'
 import { connect } from 'react-redux'
-import { doGoogleLoginAction, logOutAction } from '../../redux/userDuck'
+import { doGoogleLoginAction, logOutAction } from '../../redux/user/userActions'
 
 function LoginPage({ logOutAction, loggedIn, fetching, doGoogleLoginAction }) {
 

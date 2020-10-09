@@ -1,31 +1,7 @@
-import { loginWithGoogle, signOutGoogle } from '../firebase'
-import { retreiveFavs } from './charsDuck'
-// constanst
-let initialData = {
-    loggedIn: false,
-    fetching: false
-}
-let LOGIN = "LOGIN"
-let LOGIN_SUCCESS = "LOGIN_SUCCESS"
-let LOGIN_ERROR = "LOGIN_ERROR"
+import { loginWithGoogle, signOutGoogle } from '../../firebase'
+import { retreiveFavs } from '../chars/charsAction'
+import { LOGIN_ERROR, LOGIN_SUCCESS, LOGIN, LOG_OUT } from './types'
 
-let LOG_OUT = "LOG_OUT"
-
-// reducer
-export default function reducer(state = initialData, action) {
-    switch (action.type) {
-        case LOG_OUT:
-            return { ...initialData }
-        case LOGIN_SUCCESS:
-            return { ...state, fetching: false, ...action.payload, loggedIn: true }
-        case LOGIN_ERROR:
-            return { ...state, fetching: false, error: action.payload }
-        case LOGIN:
-            return { ...state, fetching: true }
-        default:
-            return state
-    }
-}
 
 // aux
 function saveStorage(storage) {
