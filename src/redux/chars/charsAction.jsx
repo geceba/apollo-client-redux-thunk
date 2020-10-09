@@ -43,7 +43,6 @@ export let addToFavoitesAction = () => (dispatch, getState) => {
 }
 
 export let removeCharacterAction = () => (dispatch, getState) => {
-    // ?? donde estan lo ch
     let { array } = getState().characters
     array.shift()
     if (!array.length) {
@@ -70,7 +69,7 @@ export let getCharactersAction = () => async (dispatch, getState) => {
             query: GET_CHARS,
             variables: { page: nextPage }
         });
-        
+
         dispatch({
             type: ACTION_TYPES.GET_CHARACTERS_SUCCESS,
             payload: data.characters.results
