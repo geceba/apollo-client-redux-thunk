@@ -1,7 +1,11 @@
-.container{
+.box {
+    width: 100%;
+    text-align: center;
+}
+
+.container {
     width: 100%;
     display: flex;
     justify-content: center;
-    flex-direction: column;
     align-items: center;
 }

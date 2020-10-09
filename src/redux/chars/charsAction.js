@@ -1,7 +1,8 @@
 import * as ACTION_TYPES from './types';
-import ApolloClient, { gql } from 'apollo-boost'
+import ApolloClient from 'apollo-boost'
+import { useQuery } from '@apollo/client';
 import { updateDB, getFavs } from '../../firebase'
-
+import { GET_CHARS } from './graphql'
 
 let client = new ApolloClient({
     uri: "https://rickandmortyapi.com/graphql"
@@ -57,21 +58,7 @@ export let removeCharacterAction = () => (dispatch, getState) => {
 }
 
 export let getCharactersAction = () => (dispatch, getState) => {
-    let query = gql`
-    query ($page:Int){
-        characters(page:$page){
-          info{
-            pages
-            next
-            prev
-          }
-          results{
-            name
-            image
-          }
-        }
-      }
-    `
+    let query = GET_CHARS;
     dispatch({
         type: ACTION_TYPES.GET_CHARACTERS
     })
@@ -79,8 +66,39 @@ export let getCharactersAction = () => (dispatch, getState) => {
     return client.query({
         query,
         variables: { page: nextPage }
+    }).then(({ data, error }) => {
+        if (error) {
+            dispatch({
+                type: ACTION_TYPES.GET_CHARACTERS_ERROR,
+                payload: error
+            })
+            return
+        }
+        dispatch({
+            type: ACTION_TYPES.GET_CHARACTERS_SUCCESS,
+            payload: data.characters.results
+        })
+        console.log(data.characters.info.next)
+        dispatch({
+            type: ACTION_TYPES.UPDATE_PAGE,
+            payload: data.characters.info.next ? data.characters.info.next : 1
+        })
     })
-        .then(({ data, error }) => {
+
+}
+
+
+/*
+
+let query = GET_CHARS;
+    dispatch({
+        type: ACTION_TYPES.GET_CHARACTERS
+    })
+    let { nextPage } = getState().characters
+    return client.query({
+        query,
+        variables: { page: nextPage }
+    }).then(({ data, error }) => {
             if (error) {
                 dispatch({
                     type: ACTION_TYPES.GET_CHARACTERS_ERROR,
@@ -98,4 +116,6 @@ export let getCharactersAction = () => (dispatch, getState) => {
                 payload: data.characters.info.next ? data.characters.info.next : 1
             })
         })
-}
+
+
+*/
