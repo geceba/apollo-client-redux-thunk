@@ -7,15 +7,13 @@ import { BrowserRouter } from 'react-router-dom'
 import 'font-awesome/css/font-awesome.css'
 import { Provider } from 'react-redux'
 import generateStore from './redux/store'
-import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
+import client from './client/apolloClient';
 
 
 let store = generateStore()
 
-let client = new ApolloClient({
-    uri: "https://rickandmortyapi.com/graphql",
-    cache: new InMemoryCache()
-})
+
 
 let WithRouter = () => <BrowserRouter><App /></BrowserRouter>
 let WithStore = () => <Provider store={store} ><WithRouter /></Provider>
