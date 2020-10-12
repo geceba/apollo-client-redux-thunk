@@ -1,10 +1,11 @@
 import React from 'react'
 import Card from '../card/Card'
 import styles from './home.module.css'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { removeCharacterAction, addToFavoitesAction } from '../../redux/chars/charsAction'
-
-function Home({ addToFavoitesAction, chars, removeCharacterAction }) {
+function Home() {
+    const chars = useSelector(state => state.characters.array)
+    const dispatch = useDispatch()
 
     function renderCharacter() {
         let char = chars[0]
@@ -18,11 +19,11 @@ function Home({ addToFavoitesAction, chars, removeCharacterAction }) {
     }
 
     function nextCharacter() {
-        removeCharacterAction()
+        dispatch(removeCharacterAction())
     }
 
     function addFav() {
-        addToFavoitesAction()
+        dispatch(addToFavoitesAction())
     }
 
     return (
@@ -35,10 +36,4 @@ function Home({ addToFavoitesAction, chars, removeCharacterAction }) {
     )
 }
 
-function mapState(state) {
-    return {
-        chars: state.characters.array
-    }
-}
-
-export default connect(mapState, { addToFavoitesAction, removeCharacterAction })(Home)
+export default Home

@@ -1,16 +1,19 @@
 import React from 'react'
 import styles from './login.module.css'
-import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { doGoogleLoginAction, logOutAction } from '../../redux/user/userActions'
-
-function LoginPage({ logOutAction, loggedIn, fetching, doGoogleLoginAction }) {
+// { logOutAction, loggedIn, fetching, doGoogleLoginAction }
+function LoginPage() {
+    const loggedIn = useSelector(state => state.user.loggedIn);
+    const fetching = useSelector(state => state.user.fetching);
+    const dispatch = useDispatch()
 
     function doLogin() {
-        doGoogleLoginAction()
+        dispatch(doGoogleLoginAction())
     }
 
     function logOut() {
-        logOutAction()
+        dispatch(logOutAction())
     }
 
     if (fetching) return <h2>Cargando...</h2>
@@ -32,11 +35,5 @@ function LoginPage({ logOutAction, loggedIn, fetching, doGoogleLoginAction }) {
     )
 }
 
-function mapState({ user: { fetching, loggedIn } }) {
-    return {
-        fetching,
-        loggedIn
-    }
-}
 
-export default connect(mapState, { doGoogleLoginAction, logOutAction })(LoginPage)
+export default LoginPage

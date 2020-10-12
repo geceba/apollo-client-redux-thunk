@@ -1,9 +1,10 @@
 import React from 'react'
 import styles from './favs.module.css'
 import Card from '../card/Card'
-import { connect } from 'react-redux'
+import { useSelector } from 'react-redux'
 
-function FavPage({ characters = [0] }) {
+function FavPage() {
+    const characters = useSelector(state => state.characters.favorites)
     function renderCharacter(char, i) {
         return (
             <Card hide {...char} key={i} />
@@ -20,10 +21,6 @@ function FavPage({ characters = [0] }) {
     )
 }
 
-function mapState({ characters }) {
-    return {
-        characters: characters.favorites
-    }
-}
 
-export default connect(mapState)(FavPage)
+
+export default FavPage
